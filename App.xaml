@@ -1,8 +1,12 @@
 ﻿<Application x:Class="iLinksEditor.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views\EditorView.xaml">
+             xmlns:dialog="clr-namespace:iLinksEditor.Dialog"
+             StartupUri="HostWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="EditorFont">
+            <Setter Property="TextElement.FontFamily" Value="pack://application;,,,/Fonts/#Bariol Regular"></Setter>
+        </Style>
+        <dialog:PagesSelectorViewModel x:Key="PageSelectorViewModel" />
     </Application.Resources>
 </Application>

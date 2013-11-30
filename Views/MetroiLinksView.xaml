@@ -1,0 +1,115 @@
+﻿<UserControl x:Class="iLinksEditor.Views.MetroiLinksView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit="clr-namespace:Xceed;assembly=Xceed.Wpf.Toolkit"
+             xmlns:color="clr-namespace:Xceed;assembly=Xceed.Wpf.AvalonDock"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="1200" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+    </UserControl.Resources>
+    <StackPanel>
+    <Grid Visibility="{Binding ShowEditor, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBox}">
+                <Setter Property="Margin" Value="15,3,15,3"></Setter>
+            </Style>
+            <Style TargetType="{x:Type xctk:ColorPicker}">
+                <Setter Property="Margin" Value="15,3,15,3"></Setter>
+            </Style>
+            <Style BasedOn="{StaticResource EditorFont}" TargetType="{x:Type TextBlock}">
+                <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                <Setter Property="FontSize" Value="15"></Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition Height="3*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="185"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock TextWrapping="Wrap" Text="Page Background Color"/>
+            <TextBlock TextWrapping="Wrap" Text="Page Text Color" Grid.Row="1"/>
+            <TextBlock TextWrapping="Wrap" Text="Page Link Color" Grid.Row="2"/>
+            <TextBlock TextWrapping="Wrap" Text="Page Font Size" Grid.Row="3"/>
+            <TextBlock TextWrapping="Wrap" Text="Home Search Text" Grid.Row="4"/>
+            <TextBlock TextWrapping="Wrap" Text="Origination Page" Grid.Row="5"/>
+            <TextBlock TextWrapping="Wrap" Text="Client Logo Graphic Location" Grid.Row="6"/>
+            <TextBlock TextWrapping="Wrap" Text="Client Logo Link Url" Grid.Row="7"/>
+            <TextBlock TextWrapping="Wrap" Text="Client Logo Target Window" Grid.Row="8"/>
+            <TextBlock Grid.Row="9" TextWrapping="Wrap" Text="Client Logo Alt Text" />
+            <TextBlock TextWrapping="Wrap" Text="Product Logo Graphic Location" Grid.Row="10"/>
+            <TextBlock TextWrapping="Wrap" Text="Product Logo Link Url" Grid.Row="11"/>
+            <TextBlock TextWrapping="Wrap" Text="Product Logo Target Window" Grid.Row="12"/>
+            <TextBlock TextWrapping="Wrap" Text="Product Logo Alt Text" Grid.Row="13"/>
+            <TextBlock TextWrapping="Wrap" Text="Back Link Target" Grid.Row="14"/>
+            <TextBlock TextWrapping="Wrap" Text="Back Link Url" Grid.Row="15"/>
+            <TextBlock TextWrapping="Wrap"  Grid.Row="16" >Home Search Url</TextBlock>
+            <TextBlock TextWrapping="Wrap" Text="Back Link Title" Grid.Row="17"/>
+
+            <TextBlock Grid.Row="18" TextWrapping="Wrap" Text="SEO Meta Keys"/>
+            <TextBlock Grid.Row="19" TextWrapping="Wrap" Text="SEO Meta Description"/>
+            <TextBlock Grid.Row="20" TextWrapping="Wrap" Text="Drop Down Page Ids"/>
+            
+            <xctk:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding MetroiLink.PageBgColor}" />
+            <xctk:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding MetroiLink.PageTextColor}" />
+            <xctk:ColorPicker Grid.Column="1" Grid.Row="2" SelectedColor="{Binding MetroiLink.PageLinkColor}" />
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.FontSizePx}" Grid.Row="3" />
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchText}" Grid.Row="4"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.OriginationPage}" Grid.Row="5"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoGraphicLocation}" Grid.Row="6"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoLinkUrl}" Grid.Row="7"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoTargetWindow}" Grid.Row="8"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoAltText}" Grid.Row="9"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoGraphicLocation}" Grid.Row="10"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoLinkUrl}" Grid.Row="11"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoTargetWindow}" Grid.Row="12"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoAltText}" Grid.Row="13"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkTarget}" Grid.Row="14"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkUrl}" Grid.Row="15"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchUrl}" Grid.Row="16"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkTitle}" Grid.Row="17"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SeoMetaKeys}" Grid.Row="18"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SeoMetaDesc}" Grid.Row="19"/>
+            <Grid Grid.Row="20" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox TextWrapping="Wrap" Text="{Binding MetroiLink.DropDownPageIds}"/>
+                <Button Grid.Column="1" Height="30" Margin="10" Style="{StaticResource EditorFont}" Command="{Binding OpenPageSelectorCommand}">Show Selector</Button>
+            </Grid>
+        </Grid>
+    </Grid>
+        <StackPanel Visibility="{Binding NotShowEditor, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Border CornerRadius="6" Margin="0,50,0,0" BorderBrush="LightGray"  BorderThickness="0" Width="500">
+                <TextBlock FontSize="23" Margin="30" HorizontalAlignment="Center" Foreground="LightGray" FontStyle="Italic" Style="{StaticResource EditorFont}"><Run Text="No Client Selected"/></TextBlock>
+            </Border>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

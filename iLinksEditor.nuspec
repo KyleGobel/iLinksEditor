@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>iLinksEditor</id>
+    <title>Metro iLinks Editor</title>
+    <version>$version$-beta</version>
+    <authors>Kyle Gobel</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A tool for editing the Metro iLinks for JetNett Corporation</description>
+    <tags>jetnett</tags>
+  </metadata>
+</package>

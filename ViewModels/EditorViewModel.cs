@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -10,32 +12,37 @@ using Api.JetNett.Models.Types;
 using ReactiveUI;
 using RestSharp;
 using ServiceStack.Common;
-using ServiceStack.ServiceClient.Web;
+using DataFormat = RestSharp.DataFormat;
 
 namespace iLinksEditor.ViewModels
 {
-    public class EditorViewModel : ReactiveObject
+    public interface IEditorViewModel : IRoutableViewModel
     {
+        Dictionary<Client, MetroiLinks> MetroiLinks { get; }
+        IReactiveCommand SaveILinksCommand { get; }
+        MetroiLinksViewModel MetroiLinksViewModel { get; }
+        string FilterClientsText { get; set; }
+        List<Client> Clients { get; set; } 
+        Client SelectedClient { get; set; }
 
-        private readonly RestClient _restClient = null;
-        public EditorViewModel()
+        IReactiveCommand ClearFilterTextCommand { get; set; }
+    }
+
+    public class EditorViewModel : ReactiveObject, IEditorViewModel
+    {
+        public EditorViewModel(IScreen screen)
         {
+            HostScreen = screen;
+
             _restClient = new RestClient("http://jetnett.com/api/");
-
-
-
-            //var q = iLinksObservable.GroupJoin(clientsObservabe,
-            //    _ => Observable.Never<Unit>(),
-            //    _ => Observable.Never<Unit>(),
-            //    (i, obsC) => Tuple.Create(i, obsC));
-
-
 
             var clientsObs = GetClients();
             var iLinksObs = GetILinks();
 
          
-            var clientsILinks = clientsObs.Join(
+
+            //join both data streams, and make a dictionary out of them when they return
+            clientsObs.Join(
                 iLinksObs,
                 _ => Observable.Never<Unit>(),
                 _ => Observable.Never<Unit>(),
@@ -43,21 +50,103 @@ namespace iLinksEditor.ViewModels
                     iLinksList,
                     c => c.Id,
                     i => i.ClientId,
-                    (c, i) => new 
+                    (c, i) => new
                     {
                         Client = c,
                         MetroiLinks = i
                     })
-                ).Subscribe(r => MetroiLinks = r.ToDictionary(k => k.Client, v => v.MetroiLinks));
+                ).Subscribe(r =>
+                {
+                    MetroiLinks = r.ToDictionary(k => k.Client, v => v.MetroiLinks);
+                    Clients = r.Select(x => x.Client).ToList();
+                });
+
+      
+
+            //Filter the clients list based on what the filter text is
+            this.ObservableForProperty(x => x.FilterClientsText)
+               .Where(x => x != null)
+               .Select(x => x.Value)
+               .Subscribe(filterText =>
+               {
+                   if (filterText.Length == 0)
+                       Clients = MetroiLinks.Select(m => m.Key).ToList();
+                   else
+                   {
+                        Clients = MetroiLinks.Select(m => m.Key)
+                           .ToList()
+                           .Where(c => c.Id.ToString().Contains(filterText) || c.Name.ToUpper().Contains(filterText.ToUpper()))
+                           .ToList();   
+                   }
+               });
+
+            //On SelectedClient Changed
+            this.ObservableForProperty(x => x.SelectedClient)
+                .Select(x => x.Value)
+                .Subscribe(client =>
+                {
+                    if (client != null)
+                        MetroiLinksViewModel.MetroiLink = MetroiLinks[client];
+                });
+            
+            //Clear the filter on the ClearFilterTextcommand
+            ClearFilterTextCommand = new ReactiveCommand();
+            ClearFilterTextCommand.Subscribe(x => FilterClientsText = "");
+
+            SaveILinksCommand = new ReactiveCommand(this.WhenAny(x => x.SelectedClient, x => x.Value != null));
+            SaveILinksCommand.Subscribe(x =>
+            {
+                 var requestDto = new MetroiLinkRequestDTO
+                 {
+                     Entity = MetroiLinks[SelectedClient],
+                     Id = MetroiLinks[SelectedClient].Id
+                 };
+                
+                 var request = new RestRequest("metroilinks/", Method.PUT) {RequestFormat = DataFormat.Json};
+
+                 request.AddBody(requestDto);
+                 request.AddParameter("request", requestDto);
+                 _restClient.ExecuteAsync(request, response =>
+                 {
+                     if (response.StatusCode != HttpStatusCode.NoContent)
+                     {
+                         MessageBox.Show("Error: " + response.StatusCode);
+                     }
+                     else
+                     {
+                         MessageBox.Show("Successfully updated");
+                     }
+                 });
+            });
+
+            MetroiLinksViewModel = new MetroiLinksViewModel();
 
 
+            MessageBus.Current.Listen<ObservableCollection<Page>>().Subscribe(x =>
+            {
+                var pageIds = x.Select(page => page.Id);
+                var pageIdsString = pageIds.Aggregate("", (current, id) => current + (id + ","));
+                pageIdsString = pageIdsString.Remove(pageIdsString.Length - 1);
 
-            this.WhenAny(i => i.SelectedMetroILink,vm => MetroILinkName = vm.Value.Value != null ? vm.Value.Value.HomeSearchText : "No value").Subscribe(s => MetroILinkName = s);
+                MetroiLinksViewModel.MetroiLink.DropDownPageIds = pageIdsString;
+                var currentSelectedILink = MetroiLinksViewModel.MetroiLink;
 
-
+                MetroiLinksViewModel.MetroiLink = null;
+                MetroiLinksViewModel.MetroiLink = currentSelectedILink;
+            });
 
         }
 
+
+        private List<Client> _clients;
+
+        public List<Client> Clients
+        {
+            get { return _clients; }
+            set { this.RaiseAndSetIfChanged(ref _clients, value); }
+        }
+
+        public IReactiveCommand ClearFilterTextCommand { get; set; }
         private IObservable<List<Client>> GetClients()
         {
             var request = new RestRequest("client/", Method.GET);
@@ -84,21 +173,23 @@ namespace iLinksEditor.ViewModels
             return subject;
         }
 
-        private string _metroILinkName;
+        private string _filterClientsText;
 
-        public string MetroILinkName
+        public string FilterClientsText
         {
-            get { return _metroILinkName; }
-            set { this.RaiseAndSetIfChanged(ref _metroILinkName, value); }
+            get { return _filterClientsText; }
+            set { this.RaiseAndSetIfChanged(ref _filterClientsText, value); }
         }
 
-        private KeyValuePair<Client, MetroiLinks> _selectedMetroILink;
+        private Client _selectedClient;
 
-        public KeyValuePair<Client, MetroiLinks> SelectedMetroILink
+        public Client SelectedClient
         {
-            get { return _selectedMetroILink; }
-            set { this.RaiseAndSetIfChanged(ref _selectedMetroILink, value); }
+            get { return _selectedClient; }
+            set { this.RaiseAndSetIfChanged(ref _selectedClient, value); }
         }
+
+
 
         private Dictionary<Client, MetroiLinks> _metroiLinks;
         public Dictionary<Client, MetroiLinks> MetroiLinks
@@ -106,5 +197,21 @@ namespace iLinksEditor.ViewModels
             get { return _metroiLinks; }
             set { this.RaiseAndSetIfChanged(ref _metroiLinks, value); }
         }
+
+        public IReactiveCommand SaveILinksCommand { get; protected set; }
+        public string UrlPathSegment
+        {
+            get { return "Metro iLinks Editor"; }
+        }
+        public IScreen HostScreen { get; private set; }
+
+        private MetroiLinksViewModel _metroiLinksViewModel;
+        public MetroiLinksViewModel MetroiLinksViewModel
+        {
+            get { return _metroiLinksViewModel; }
+            set { this.RaiseAndSetIfChanged(ref _metroiLinksViewModel, value); }
+        }
+
+        private readonly RestClient _restClient = null;
     }
 }
