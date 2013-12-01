@@ -34,7 +34,7 @@ namespace iLinksEditor.ViewModels
         {
             HostScreen = screen;
 
-            _restClient = new RestClient("http://jetnett.com/api/");
+            _restClient = new RestClient(ConfigSettings.Current.JetNettApiAddress);
 
             var clientsObs = GetClients();
             var iLinksObs = GetILinks();

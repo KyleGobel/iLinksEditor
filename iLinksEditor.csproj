@@ -125,6 +125,7 @@
       <HintPath>..\packages\Shimmer.Core.0.7.4\lib\net40\Shimmer.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IO.Abstractions">
       <HintPath>..\packages\System.IO.Abstractions.1.4.0.70\lib\net35\System.IO.Abstractions.dll</HintPath>
@@ -183,6 +184,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConfigSettings.cs" />
     <Compile Include="Controls\DesignTimeSelectedPageViewModel.cs" />
     <Compile Include="Controls\SelectedPageControl.xaml.cs">
       <DependentUpon>SelectedPageControl.xaml</DependentUpon>

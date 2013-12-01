@@ -14,7 +14,7 @@ namespace iLinksEditor.ViewModels
     {
         private readonly ReadOnlyCollection<FolderViewModel> _folders;
         private readonly Folder _folder;
-        private static readonly RestClient RestClient = new RestClient("http://jetnett.com/api/");
+        private static readonly RestClient RestClient = new RestClient(ConfigSettings.Current.JetNettApiAddress);
         public FolderViewModel(Folder folder) : base(null, true)
         {
             _folder = folder;
