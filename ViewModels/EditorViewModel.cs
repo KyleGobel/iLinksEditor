@@ -22,7 +22,7 @@ namespace iLinksEditor.ViewModels
         IReactiveCommand SaveILinksCommand { get; }
         MetroiLinksViewModel MetroiLinksViewModel { get; }
         string FilterClientsText { get; set; }
-        List<Client> Clients { get; set; } 
+        ReactiveList<Client> Clients { get; set; } 
         Client SelectedClient { get; set; }
 
         IReactiveCommand ClearFilterTextCommand { get; set; }
@@ -58,7 +58,7 @@ namespace iLinksEditor.ViewModels
                 ).Subscribe(r =>
                 {
                     MetroiLinks = r.ToDictionary(k => k.Client, v => v.MetroiLinks);
-                    Clients = r.Select(x => x.Client).ToList();
+                    Clients = new ReactiveList<Client>(r.Select(x => x.Client));
                 });
 
       
@@ -70,13 +70,14 @@ namespace iLinksEditor.ViewModels
                .Subscribe(filterText =>
                {
                    if (filterText.Length == 0)
-                       Clients = MetroiLinks.Select(m => m.Key).ToList();
+                       Clients = new ReactiveList<Client>(MetroiLinks.Select(m => m.Key).ToList());
                    else
                    {
-                        Clients = MetroiLinks.Select(m => m.Key)
-                           .ToList()
-                           .Where(c => c.Id.ToString().Contains(filterText) || c.Name.ToUpper().Contains(filterText.ToUpper()))
-                           .ToList();   
+                        Clients = new ReactiveList<Client>(
+                            MetroiLinks.Select(m => m.Key)
+                               .ToList()
+                               .Where(c => c.Id.ToString().Contains(filterText) || c.Name.ToUpper().Contains(filterText.ToUpper()))
+                               .ToList());   
                    }
                });
 
@@ -138,23 +139,23 @@ namespace iLinksEditor.ViewModels
         }
 
 
-        private List<Client> _clients;
+        private ReactiveList<Client> _clients;
 
-        public List<Client> Clients
+        public ReactiveList<Client> Clients
         {
             get { return _clients; }
             set { this.RaiseAndSetIfChanged(ref _clients, value); }
         }
 
         public IReactiveCommand ClearFilterTextCommand { get; set; }
-        private IObservable<List<Client>> GetClients()
+        private IObservable<ReactiveList<Client>> GetClients()
         {
             var request = new RestRequest("client/", Method.GET);
-            var subject = new AsyncSubject<List<Client>>();
+            var subject = new AsyncSubject<ReactiveList<Client>>();
 
             _restClient.ExecuteAsync<ClientResponseDTO>(request, response =>
             {
-                subject.OnNext(response.Data.Entities);
+                subject.OnNext(new ReactiveList<Client>(response.Data.Entities));
                 subject.OnCompleted();
             });
             return subject;

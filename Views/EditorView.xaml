@@ -27,11 +27,11 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBox Margin="10" Text="{Binding FilterClientsText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button Grid.Column="1" Command="{Binding ClearFilterTextCommand}" Style="{StaticResource EditorFont}" Margin="10">Clear</Button>
+                <TextBox Margin="10" x:Name="FilterClientsTextBox"/>
+                <Button Grid.Column="1" x:Name="ClearFiltersButton" Style="{StaticResource EditorFont}" Margin="10">Clear</Button>
             </Grid>
         </StackPanel>
-        <ListBox SelectedItem="{Binding SelectedClient}" ItemsSource="{Binding Clients}" Grid.Row="1" Grid.Column="1" d:IsLocked="True">
+        <ListBox x:Name="ClientsListBox" ItemsSource="{Binding Clients}" Grid.Row="1" Grid.Column="1" d:IsLocked="True">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
@@ -44,8 +44,10 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ContentControl Margin="5" Content="{Binding MetroiLinksViewModel}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" />
-        
+        <ScrollViewer Margin="10" Grid.Row="1" Grid.Column="0">
+            <ContentControl Content="{Binding MetroiLinksViewModel}"/>
+        </ScrollViewer>
+
 
         <Button Command="{Binding SaveILinksCommand}" 
                 Style="{StaticResource EditorFont}" 
