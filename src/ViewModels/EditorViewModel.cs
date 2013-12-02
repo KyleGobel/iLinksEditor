@@ -106,7 +106,6 @@ namespace iLinksEditor.ViewModels
                  var request = new RestRequest("metroilinks/", Method.PUT) {RequestFormat = DataFormat.Json};
 
                  request.AddBody(requestDto);
-                 request.AddParameter("request", requestDto);
                  _restClient.ExecuteAsync(request, response =>
                  {
                      if (response.StatusCode != HttpStatusCode.NoContent)
