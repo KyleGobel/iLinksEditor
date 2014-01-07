@@ -13,17 +13,25 @@
     <Border CornerRadius="3" Padding="5" Background="Black" d:DataContext="{StaticResource DesignTimeSelectedPageViewModel}" Height="35">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="9*"/>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="8*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-        <TextBlock Grid.Column="0" 
+            <TextBlock Grid.Column="0" 
+                       Style="{StaticResource EditorFont}" 
+                       Text="{Binding Id}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"
+                       FontSize="14"/>
+        <TextBlock Grid.Column="1" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center"
                    FontSize="14"
                    Foreground="White"
                    Style="{StaticResource EditorFont}" 
                    Text="{Binding Title}"/>
-            <Button Grid.Column="1" 
+            <Button Grid.Column="2" 
                     FontWeight="Bold" 
                     Margin="10,0,0,0" 
                     HorizontalAlignment="Center" 

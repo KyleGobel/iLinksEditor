@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="iLinksEditor.exe" size="154624">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="iLinksEditor.exe" size="155648">
       <assemblyIdentity name="iLinksEditor" version="0.0.1.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>i2rUuUPSXwe+QzRlgwt3FhrFcyTVOkJ2v5GP4qDOUnI=</dsig:DigestValue>
+        <dsig:DigestValue>K9cKqo8+Puv+QT7hz0rSNGie9abS+S0lF1Zadi3FJHw=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

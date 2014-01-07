@@ -6,6 +6,12 @@
         {
             get { return "Wisconsin < South Central Wisconsin < Communties < Belleville, WI"; } 
             set { }
-        } 
+        }
+
+        public int Id
+        {
+            get { return 192923; }
+            set { }
+        }
     }
 }
