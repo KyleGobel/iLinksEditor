@@ -5,20 +5,23 @@ using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
+using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
+using ServiceStack;
 
 namespace iLinksEditor.Dialog
 {
   
     public class PagesSelectorViewModel : ReactiveObject
     {
-        protected static RestClient RestClient = new RestClient("http://jetnett.com/api/");
+        protected static readonly JsonServiceClient JsonClient = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
         public PagesSelectorViewModel()
         {
             SelectedPages = new ObservableCollection<Page>();
@@ -77,6 +80,9 @@ namespace iLinksEditor.Dialog
 
         private IObservable<Page> PagePathObservable(int id)
         {
+            /*var r = JsonClient.GetAsync(new PagesDTO {PathPageId = id});
+
+            return r.ToObservable().Select(x => x);
             var request = new RestRequest("page/path/" + id, Method.GET);
             var subject = new AsyncSubject<Page>();
 
@@ -86,6 +92,8 @@ namespace iLinksEditor.Dialog
                 subject.OnCompleted();
             });
             return subject;
+            */
+            return null;
         }
         private Folder _selectedFolder;
 
@@ -112,15 +120,9 @@ namespace iLinksEditor.Dialog
 
         private IObservable<List<Page>> PagesByFolder(int folderId)
         {
-            var request = new RestRequest("page/folder/" + folderId, Method.GET);
-            var subject = new AsyncSubject<List<Page>>();
+            var repo = new PagesRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
 
-            RestClient.ExecuteAsync<PagesResponseDTO>(request, response =>
-            {
-                subject.OnNext(response.Data.Entities);
-                subject.OnCompleted();
-            });
-            return subject;
+            return repo.GetByFolderId(folderId);
         }
 
     }

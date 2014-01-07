@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,8 +18,10 @@ using System.Windows.Shapes;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
 using iLinksEditor.ViewModels;
+using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
+using ServiceStack;
 
 namespace iLinksEditor.Controls
 {
@@ -53,16 +56,11 @@ namespace iLinksEditor.Controls
         }
         private IObservable<List<Folder>> GetBaseFolders()
         {
-            var restClient = new RestClient("http://jetnett.com/api/");
-            var request = new RestRequest("folder/", Method.GET);
-            var subject = new AsyncSubject<List<Folder>>();
+            var repo = new FolderRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
 
-            restClient.ExecuteAsync<FolderResponseDTO>(request, response =>
-            {
-                subject.OnNext(response.Data.Entities.Where(x => x.ParentFolderId == null).ToList());
-                subject.OnCompleted();
-            });
-            return subject;
+            var allFolders = repo.GetAll();
+            var folders = allFolders.Wait();
+            return Observable.Return(folders.Where(x => x.ParentFolderId == null).ToList());
         }
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

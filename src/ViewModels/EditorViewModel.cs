@@ -6,12 +6,16 @@ using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Windows;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
+using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
+using ServiceStack;
 using ServiceStack.Common;
+using ServiceStack.Configuration;
 using DataFormat = RestSharp.DataFormat;
 
 namespace iLinksEditor.ViewModels
@@ -30,11 +34,13 @@ namespace iLinksEditor.ViewModels
 
     public class EditorViewModel : ReactiveObject, IEditorViewModel
     {
+        protected JsonServiceClient JsonClient { get; set; }
         public EditorViewModel(IScreen screen)
         {
             HostScreen = screen;
 
             _restClient = new RestClient(ConfigSettings.Current.JetNettApiAddress);
+            JsonClient = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
 
             var clientsObs = GetClients();
             var iLinksObs = GetILinks();
@@ -97,26 +103,11 @@ namespace iLinksEditor.ViewModels
             SaveILinksCommand = new ReactiveCommand(this.WhenAny(x => x.SelectedClient, x => x.Value != null));
             SaveILinksCommand.Subscribe(x =>
             {
-                 var requestDto = new MetroiLinkRequestDTO
-                 {
-                     Entity = MetroiLinks[SelectedClient],
-                     Id = MetroiLinks[SelectedClient].Id
-                 };
-                
-                 var request = new RestRequest("metroilinks/", Method.PUT) {RequestFormat = DataFormat.Json};
-
-                 request.AddBody(requestDto);
-                 _restClient.ExecuteAsync(request, response =>
-                 {
-                     if (response.StatusCode != HttpStatusCode.NoContent)
-                     {
-                         MessageBox.Show("Error: " + response.StatusCode);
-                     }
-                     else
-                     {
-                         MessageBox.Show("Successfully updated");
-                     }
-                 });
+                var client = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
+                client.Credentials = new NetworkCredential("ApiUser", "ssapi");
+                var repo = new MetroiLinkRepository(client);
+                repo.Update(MetroiLinksViewModel.MetroiLink);
+                MessageBox.Show("Saved");
             });
 
             MetroiLinksViewModel = new MetroiLinksViewModel();
@@ -147,30 +138,16 @@ namespace iLinksEditor.ViewModels
         }
 
         public IReactiveCommand ClearFilterTextCommand { get; set; }
-        private IObservable<ReactiveList<Client>> GetClients()
+        private IObservable<List<Client>> GetClients()
         {
-            var request = new RestRequest("client/", Method.GET);
-            var subject = new AsyncSubject<ReactiveList<Client>>();
-
-            _restClient.ExecuteAsync<ClientResponseDTO>(request, response =>
-            {
-                subject.OnNext(new ReactiveList<Client>(response.Data.Entities));
-                subject.OnCompleted();
-            });
-            return subject;
+            var repo = new ClientRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
+            return repo.GetAll();
         }
 
         private IObservable<List<MetroiLinks>> GetILinks()
         {
-            var request = new RestRequest("metroilinks/", Method.GET);
-            var subject = new AsyncSubject<List<MetroiLinks>>();
-
-            _restClient.ExecuteAsync<MetroiLinksResponseDTO>(request, response =>
-            {
-                subject.OnNext(response.Data.Entities);
-                subject.OnCompleted();
-            });
-            return subject;
+            var repo = new MetroiLinkRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
+            return repo.GetAll();
         }
 
         private string _filterClientsText;

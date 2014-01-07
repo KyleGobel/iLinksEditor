@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
+using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
+using ServiceStack;
 
 namespace iLinksEditor.ViewModels
 {
@@ -14,7 +17,7 @@ namespace iLinksEditor.ViewModels
     {
         private readonly ReadOnlyCollection<FolderViewModel> _folders;
         private readonly Folder _folder;
-        private static readonly RestClient RestClient = new RestClient(ConfigSettings.Current.JetNettApiAddress);
+        private static readonly JsonServiceClient JsonClient = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
         public FolderViewModel(Folder folder) : base(null, true)
         {
             _folder = folder;
@@ -36,15 +39,9 @@ namespace iLinksEditor.ViewModels
         }
         private IObservable<List<Folder>> GetChildFolders(int id)
         {
-            var request = new RestRequest("folder/children/" + id, Method.GET);
-            var subject = new AsyncSubject<List<Folder>>();
+            var repo = new FolderRepository(new JsonServiceClient("http://jetnett.com/jetnettapi/01-04-2014/"));
 
-            RestClient.ExecuteAsync<FolderResponseDTO>(request, response =>
-            {
-                subject.OnNext(response.Data.Entities);
-                subject.OnCompleted();
-            });
-            return subject;
+            return repo.GetChildFolders(id);
         }
 
     }

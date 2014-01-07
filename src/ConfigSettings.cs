@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using ServiceStack;
 using ServiceStack.Common;
 
 namespace iLinksEditor
@@ -7,6 +8,7 @@ namespace iLinksEditor
     {
         private static readonly ConfigSettings instance = new ConfigSettings();
 
+        
         public static ConfigSettings Current { get { return instance; } }
         private ConfigSettings()
         { }
@@ -15,9 +17,9 @@ namespace iLinksEditor
         {
             get
             {
-                #if DEBUG
-                    return "http://localhost:9037/";
-                #endif
+                //#if DEBUG
+                //    return "http://localhost:9037/";
+                //#endif
                 var s = ConfigurationManager.AppSettings["jetnett-api"];
                 return !s.IsNullOrEmpty() ? s : "";
             } 

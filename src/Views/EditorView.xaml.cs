@@ -12,6 +12,7 @@ using MahApps.Metro.Controls;
 using Ninject.Planning.Bindings;
 using ReactiveUI;
 using RestSharp.Extensions;
+using ServiceStack;
 using ServiceStack.Text;
 
 namespace iLinksEditor.Views
