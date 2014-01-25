@@ -31,7 +31,6 @@ namespace iLinksEditor.Dialog
         public PageSelector()
         {
             InitializeComponent();
-           
         }
 
         private void CancelButton_OnClick(object sender, RoutedEventArgs e)

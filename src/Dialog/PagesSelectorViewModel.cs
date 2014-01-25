@@ -31,7 +31,7 @@ namespace iLinksEditor.Dialog
             this.ObservableForProperty(x => x.SelectedFolder).Subscribe(x => PagesByFolder(x.Value.Id).Subscribe(
                 pages =>
                 {
-                    Pages = pages;
+                    Pages = pages.OrderBy(o => o.Title).ToList();
                 }));
 
 
@@ -51,10 +51,9 @@ namespace iLinksEditor.Dialog
                         SelectedPages.Sort(s => s.Title);
                     });
                 }
-
-
             });
 
+            StatusMessage = "Folders loaded";
             //setup our remove page command
             RemovePageCommand = new ReactiveCommand();
             RemovePageCommand.Subscribe(x => SelectedPages.Remove(x as Page));
@@ -64,7 +63,8 @@ namespace iLinksEditor.Dialog
                 .Select(x => x.Value)
                 .Subscribe(x =>
             {
-
+                SelectedPages.Add(x);
+                SelectedPages.Sort(s => s.Title);
             });
         }
 
@@ -77,6 +77,13 @@ namespace iLinksEditor.Dialog
         }
         public IReactiveCommand RemovePageCommand { get; set; }
 
+        private string _statusMessage;
+
+        public string StatusMessage
+        {
+            get { return _statusMessage; }
+            set { this.RaiseAndSetIfChanged(ref _statusMessage, value); }
+        }
         private IObservable<Page> PagePathObservable(int id)
         {
             /*var r = JsonClient.GetAsync(new PagesDTO {PathPageId = id});

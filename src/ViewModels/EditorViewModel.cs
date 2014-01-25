@@ -10,6 +10,7 @@ using System.Reactive.Threading.Tasks;
 using System.Windows;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
+using iLinksEditor.Dialog;
 using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
@@ -64,7 +65,7 @@ namespace iLinksEditor.ViewModels
                 ).Subscribe(r =>
                 {
                     MetroiLinks = r.ToDictionary(k => k.Client, v => v.MetroiLinks);
-                    Clients = new ReactiveList<Client>(r.Select(x => x.Client));
+                    Clients = new ReactiveList<Client>(r.Select(x => x.Client).OrderBy(x => x.Name));
                 });
 
       
@@ -113,7 +114,7 @@ namespace iLinksEditor.ViewModels
             MetroiLinksViewModel = new MetroiLinksViewModel();
 
 
-            MessageBus.Current.Listen<ObservableCollection<Page>>().Subscribe(x =>
+            MessageBus.Current.Listen<SortableObservableCollection<Page>>().Subscribe(x =>
             {
                 var pageIds = x.Select(page => page.Id);
                 var pageIdsString = pageIds.Aggregate("", (current, id) => current + (id + ","));

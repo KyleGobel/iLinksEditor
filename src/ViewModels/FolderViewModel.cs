@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace iLinksEditor.ViewModels
 
         protected override void LoadChildren()
         {
-            GetChildFolders(Folder.Id).ObserveOnDispatcher().Subscribe(x => x.ForEach(f => base.Children.Add(new FolderViewModel(f))));
+            GetChildFolders(Folder.Id).ObserveOnDispatcher().Subscribe(x => x.OrderBy(o => o.Name).ToList().ForEach(f => base.Children.Add(new FolderViewModel(f))));
         }
         private IObservable<List<Folder>> GetChildFolders(int id)
         {

@@ -15,7 +15,7 @@ namespace iLinksEditor.ViewModels
         public BaseFoldersViewModel(Folder[] baseFolders)
         {
             _folders = new ReadOnlyCollection<FolderViewModel>(
-                baseFolders.Select(x => new FolderViewModel(x)).ToArray());
+                baseFolders.Select(x => new FolderViewModel(x)).OrderBy(x => x.Folder.Name).ToArray());
 
         }
 
