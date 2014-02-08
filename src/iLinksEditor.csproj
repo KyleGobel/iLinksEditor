@@ -28,9 +28,10 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://developer.jetnett.com/iLinksEditor/</InstallUrl>
+    <PublisherName>Kyle Gobel</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>7</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -130,6 +131,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.IO.Abstractions">
       <HintPath>..\packages\System.IO.Abstractions.1.4.0.70\lib\net35\System.IO.Abstractions.dll</HintPath>
     </Reference>
@@ -342,6 +344,15 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\iLinks.Data\iLinks.Data.csproj">
+      <Project>{a50dd1a0-cfc7-4083-9988-78c6b4dcef7c}</Project>
+      <Name>iLinks.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <!-- The following makes sure we don’t try to publish a configuration that defines the DEBUG constant -->
   <Target Name="BeforePublish">

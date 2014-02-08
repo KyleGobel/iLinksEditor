@@ -2,11 +2,12 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:iLinksEditor.Dialog"
-        xmlns:model="clr-namespace:Api.JetNett.Models.Types;assembly=Api.JetNett.Models"
+         xmlns:model="clr-namespace:iLinks;assembly=iLinks.Data" 
         xmlns:controls="clr-namespace:iLinksEditor.Controls"
          xmlns:mahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
          xmlns:mahApps1="http://metro.mahapps.com/winfx/xaml/controls"
-        Title="Select Pages" Height="800" Width="1200" WindowStyle="ToolWindow">
+         xmlns:data="clr-namespace:iLinks.Data;assembly=iLinks.Data"
+         Title="Select Pages" Height="800" Width="1200" WindowStyle="ToolWindow">
     <mahApps1:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -49,9 +50,9 @@
             <ListBox Grid.Row="1" Style="{StaticResource EditorFont}" SelectedItem="{Binding SelectedPageAdd, Mode=TwoWay, Source={StaticResource PageSelectorViewModel}}" ItemsSource="{Binding Pages, Source={StaticResource PageSelectorViewModel}}">
                 <ListBox.Resources>
                     <DataTemplate
-                DataType="{x:Type model:Page}">
+                DataType="{x:Type data:Page}">
                         <TextBlock FontSize="15">
-                   <Run Text="{Binding Id}"/>
+                   <Run Text="{Binding ID}"/>
                    <Run Text="-"/>
                    <Run Text="{Binding Title}"/>
                         </TextBlock>
@@ -70,7 +71,7 @@
             <ListBox  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPages, Source={StaticResource PageSelectorViewModel}}">
                 <ListBox.Resources>
                     <DataTemplate
-                    DataType="{x:Type model:Page}">
+                    DataType="{x:Type data:Page}">
                         <controls:SelectedPageControl Margin="3" DataContext="{Binding}"/>
                     </DataTemplate>
                 </ListBox.Resources>

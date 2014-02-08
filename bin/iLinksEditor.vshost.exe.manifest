@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="iLinksEditor.exe" version="1.0.0.7" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="iLinksEditor.exe" version="1.0.0.9" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
   <application />
   <entryPoint>
     <assemblyIdentity name="iLinksEditor" version="0.0.1.0" language="neutral" processorArchitecture="msil" />
@@ -42,14 +42,26 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Api.JetNett.Models.dll" size="234496">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Api.JetNett.Models.dll" size="220672">
       <assemblyIdentity name="Api.JetNett.Models" version="3.1.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>FFBL9Gyg1jPl7V/5dOvkCKSl1RECjdKkEm31FVNmuwo=</dsig:DigestValue>
+        <dsig:DigestValue>DCeGkZSafqI03fuCvKCrGwRhsrhIeCQRXq4ZZ7xD0is=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="iLinks.Data.dll" size="29696">
+      <assemblyIdentity name="iLinks.Data" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>iUf3k4voxA7WahkV6aCCm1yx5ANjclwIfvYErIK+LeM=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -61,7 +73,7 @@
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>lAgo703jQadnOtBQtVxbEcc6ugy0R1Bn8wE18p+8rAA=</dsig:DigestValue>
+        <dsig:DigestValue>5JoxByBPsC8/WSfTQ45tOG+ilZUBlz9dPpjddf9m78g=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +90,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="JetNettApiReactive.dll" size="9216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="JetNettApiReactive.dll" size="10752">
       <assemblyIdentity name="JetNettApiReactive" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>ugmWwLMubmfn1uPyY+gwDdln85trPnENOK1/cbHAJFk=</dsig:DigestValue>
+        <dsig:DigestValue>0uCYAE+GKAqXeQikxO1FOeYYQYb1bln3Wnze0C72yK0=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -545,13 +557,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="iLinksEditor.exe.config" size="912">
+  <file name="iLinksEditor.exe.config" size="1269">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>bCkoGTSujccRa24cTnwj726mnK/acY7oQjxCtSLNxqA=</dsig:DigestValue>
+      <dsig:DigestValue>ffrap99Z7yT9Wx5UtKv4TNlXwyvgbx15eqE8wIsp2e8=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

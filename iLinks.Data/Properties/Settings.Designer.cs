@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace iLinksEditor.Properties {
+namespace iLinks.Data.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -26,18 +26,8 @@ namespace iLinksEditor.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=KYLE;Initial Catalog=DeersoTestDb;Integrated Security=True")]
-        public string DeersoTestDbConnectionString {
-            get {
-                return ((string)(this["DeersoTestDbConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=ogt6gud01l.database.windows.net;Initial Catalog=Jetnett_Data;Persist " +
-            "Security Info=True;User ID=jetnett_admin;Password=Mad15onmetr0")]
+            "Security Info=True;User ID=jetnett_admin")]
         public string Jetnett_DataConnectionString {
             get {
                 return ((string)(this["Jetnett_DataConnectionString"]));

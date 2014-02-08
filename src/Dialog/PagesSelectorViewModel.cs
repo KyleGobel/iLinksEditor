@@ -26,7 +26,7 @@ namespace iLinksEditor.Dialog
         protected static readonly JsonServiceClient JsonClient = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
         public PagesSelectorViewModel()
         {
-            SelectedPages = new SortableObservableCollection<Page>();
+            SelectedPages = new SortableObservableCollection<iLinks.Data.Page>();
             //_selectedFolder = new Folder {Id =0, Name="none"};
             this.ObservableForProperty(x => x.SelectedFolder).Subscribe(x => PagesByFolder(x.Value.Id).Subscribe(
                 pages =>
@@ -37,26 +37,21 @@ namespace iLinksEditor.Dialog
 
             //Listen for messages on the channel "pagesToSelect" for a list of
             //page Ids to put into the selected pages box
-            MessageBus.Current.Listen<string>("pagesToSelect").Subscribe(pageIds =>
+            MessageBus.Current.Listen<ReactiveList<iLinks.Data.Page>>("pagesToSelect").Subscribe(pages =>
             {
-                if (string.IsNullOrEmpty(pageIds)) return;
-                var pageIdsList = pageIds.Split(new[] { ',' }).Select(int.Parse).ToArray();
-                var repo = new PagesRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress), 15);
+                if (pages == null) return;
 
-                foreach(var x in pageIdsList)
+                foreach(var x in pages)
                 {
-                    repo.GetById(x).ObserveOnDispatcher().Subscribe(page =>
-                    {
-                        SelectedPages.Add(page);
-                        SelectedPages.Sort(s => s.Title);
-                    });
+                    SelectedPages.Add(x);
+                    SelectedPages.Sort(s => s.Title);
                 }
             });
 
             StatusMessage = "Folders loaded";
             //setup our remove page command
             RemovePageCommand = new ReactiveCommand();
-            RemovePageCommand.Subscribe(x => SelectedPages.Remove(x as Page));
+            RemovePageCommand.Subscribe(x => SelectedPages.Remove(x as iLinks.Data.Page));
 
             this.ObservableForProperty(x => x.SelectedPageAdd)
                 .Where(x => x.Value != null)
@@ -68,9 +63,9 @@ namespace iLinksEditor.Dialog
             });
         }
 
-        private Page _selectedPageAdd;
+        private iLinks.Data.Page _selectedPageAdd;
 
-        public Page SelectedPageAdd
+        public iLinks.Data.Page SelectedPageAdd
         {
             get { return _selectedPageAdd; }
             set { this.RaiseAndSetIfChanged(ref _selectedPageAdd, value); }
@@ -109,26 +104,26 @@ namespace iLinksEditor.Dialog
             set { this.RaiseAndSetIfChanged(ref _selectedFolder, value); }
         }
 
-        private List<Page> _pages; 
-        public List<Page> Pages
+        private List<iLinks.Data.Page> _pages; 
+        public List<iLinks.Data.Page> Pages
         {
             get { return _pages; }
             set { this.RaiseAndSetIfChanged(ref _pages, value); }
         }
 
-        private SortableObservableCollection<Page> _selectedPages;
+        private SortableObservableCollection<iLinks.Data.Page> _selectedPages;
 
-        public SortableObservableCollection<Page> SelectedPages
+        public SortableObservableCollection<iLinks.Data.Page> SelectedPages
         {
             get { return _selectedPages; }
             set { this.RaiseAndSetIfChanged(ref _selectedPages, value); }
         }
 
-        private IObservable<List<Page>> PagesByFolder(int folderId)
+        private IObservable<List<iLinks.Data.Page>> PagesByFolder(int folderId)
         {
-            var repo = new PagesRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
+            var pagesRepo = new iLinks.Data.PagesRepo();
 
-            return repo.GetByFolderId(folderId);
+            return Observable.Return(pagesRepo.GetByFolderId(folderId));
         }
 
     }

@@ -1,11 +1,13 @@
 ﻿using System.Reactive.Disposables;
 using Api.JetNett.Models.Types;
+using iLinks.Data;
 using ReactiveUI;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Concurrency;
 using System;
+using Page = iLinks.Data.Page;
 
 namespace iLinksEditor.ViewModels
 {
@@ -13,7 +15,7 @@ namespace iLinksEditor.ViewModels
     {
         MetroiLinks MetroiLink { get; set; }
         IReactiveCommand OpenPageSelectorCommand { get; set; }
-
+        ReactiveList<iLinks.Data.Page> CommunityProfiles { get; set; } 
         bool ShowEditor { get; set; }
 
         bool NotShowEditor { get; set; }
@@ -29,7 +31,7 @@ namespace iLinksEditor.ViewModels
                 .Subscribe(x =>
                 {
                     x.Show();
-                    MessageBus.Current.SendMessage(MetroiLink.DropDownPageIds, "pagesToSelect");
+                    MessageBus.Current.SendMessage(CommunityProfiles, "pagesToSelect");
                 });
 
             this.ObservableForProperty(x => x.MetroiLink)
@@ -37,8 +39,12 @@ namespace iLinksEditor.ViewModels
                 {
                     ShowEditor = x.Value != null;
                     NotShowEditor = !ShowEditor;
+                    var cpRepo = new CommunityProfilesRepo();
+                    if (x.Value != null)
+                        CommunityProfiles = new ReactiveList<Page>(cpRepo.GetCommunityProfiles(x.Value.ClientId));
                 });
 
+            CommunityProfiles = new ReactiveList<Page>();
             NotShowEditor = !ShowEditor;
         }
 
@@ -66,5 +72,13 @@ namespace iLinksEditor.ViewModels
         }
 
         public IReactiveCommand OpenPageSelectorCommand { get; set; }
+
+        private ReactiveList<iLinks.Data.Page> _communityProfiles;
+
+        public ReactiveList<iLinks.Data.Page> CommunityProfiles
+        {
+            get { return _communityProfiles; }
+            set { this.RaiseAndSetIfChanged(ref _communityProfiles, value); }
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Reactive.Threading.Tasks;
 using System.Windows;
 using Api.JetNett.Models.Operations;
 using Api.JetNett.Models.Types;
+using iLinks.Data;
 using iLinksEditor.Dialog;
 using JetNettApiReactive;
 using ReactiveUI;
@@ -17,18 +18,20 @@ using RestSharp;
 using ServiceStack;
 using ServiceStack.Common;
 using ServiceStack.Configuration;
+using Client = Api.JetNett.Models.Types.Client;
 using DataFormat = RestSharp.DataFormat;
+using Page = Api.JetNett.Models.Types.Page;
 
 namespace iLinksEditor.ViewModels
 {
     public interface IEditorViewModel : IRoutableViewModel
     {
-        Dictionary<Client, MetroiLinks> MetroiLinks { get; }
+        Dictionary<iLinks.Data.Client, MetroiLinks> MetroiLinks { get; }
         IReactiveCommand SaveILinksCommand { get; }
         MetroiLinksViewModel MetroiLinksViewModel { get; }
         string FilterClientsText { get; set; }
-        ReactiveList<Client> Clients { get; set; } 
-        Client SelectedClient { get; set; }
+        ReactiveList<iLinks.Data.Client> Clients { get; set; } 
+        iLinks.Data.Client SelectedClient { get; set; }
 
         IReactiveCommand ClearFilterTextCommand { get; set; }
     }
@@ -55,7 +58,7 @@ namespace iLinksEditor.ViewModels
                 _ => Observable.Never<Unit>(),
                 (clientList, iLinksList) => clientList.Join(
                     iLinksList,
-                    c => c.Id,
+                    c => c.ID,
                     i => i.ClientId,
                     (c, i) => new
                     {
@@ -65,7 +68,7 @@ namespace iLinksEditor.ViewModels
                 ).Subscribe(r =>
                 {
                     MetroiLinks = r.ToDictionary(k => k.Client, v => v.MetroiLinks);
-                    Clients = new ReactiveList<Client>(r.Select(x => x.Client).OrderBy(x => x.Name));
+                    Clients = new ReactiveList<iLinks.Data.Client>(r.Select(x => x.Client).OrderBy(x => x.Name));
                 });
 
       
@@ -77,13 +80,13 @@ namespace iLinksEditor.ViewModels
                .Subscribe(filterText =>
                {
                    if (filterText.Length == 0)
-                       Clients = new ReactiveList<Client>(MetroiLinks.Select(m => m.Key).ToList());
+                       Clients = new ReactiveList<iLinks.Data.Client>(MetroiLinks.Select(m => m.Key).ToList());
                    else
                    {
-                        Clients = new ReactiveList<Client>(
+                        Clients = new ReactiveList<iLinks.Data.Client>(
                             MetroiLinks.Select(m => m.Key)
                                .ToList()
-                               .Where(c => c.Id.ToString().Contains(filterText) || c.Name.ToUpper().Contains(filterText.ToUpper()))
+                               .Where(c => c.ID.ToString().Contains(filterText) || c.Name.ToUpper().Contains(filterText.ToUpper()))
                                .ToList());   
                    }
                });
@@ -94,7 +97,10 @@ namespace iLinksEditor.ViewModels
                 .Subscribe(client =>
                 {
                     if (client != null)
+                    {
                         MetroiLinksViewModel.MetroiLink = MetroiLinks[client];
+
+                    }
                 });
             
             //Clear the filter on the ClearFilterTextcommand
@@ -114,15 +120,11 @@ namespace iLinksEditor.ViewModels
             MetroiLinksViewModel = new MetroiLinksViewModel();
 
 
-            MessageBus.Current.Listen<SortableObservableCollection<Page>>().Subscribe(x =>
+            MessageBus.Current.Listen<SortableObservableCollection<iLinks.Data.Page>>().Subscribe(x =>
             {
-                var pageIds = x.Select(page => page.Id);
-                var pageIdsString = pageIds.Aggregate("", (current, id) => current + (id + ","));
-                pageIdsString = pageIdsString.Remove(pageIdsString.Length - 1);
-
-                MetroiLinksViewModel.MetroiLink.DropDownPageIds = pageIdsString;
+                var cpRepo = new CommunityProfilesRepo();
                 var currentSelectedILink = MetroiLinksViewModel.MetroiLink;
-
+                cpRepo.UpdateCommunityProfiles(currentSelectedILink.ClientId, x);
                 MetroiLinksViewModel.MetroiLink = null;
                 MetroiLinksViewModel.MetroiLink = currentSelectedILink;
             });
@@ -130,18 +132,18 @@ namespace iLinksEditor.ViewModels
         }
 
 
-        private ReactiveList<Client> _clients;
+        private ReactiveList<iLinks.Data.Client> _clients;
 
-        public ReactiveList<Client> Clients
+        public ReactiveList<iLinks.Data.Client> Clients
         {
             get { return _clients; }
             set { this.RaiseAndSetIfChanged(ref _clients, value); }
         }
 
         public IReactiveCommand ClearFilterTextCommand { get; set; }
-        private IObservable<List<Client>> GetClients()
+        private IObservable<List<iLinks.Data.Client>> GetClients()
         {
-            var repo = new ClientRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
+            var repo = new ClientsRepo();
             return repo.GetAll();
         }
 
@@ -159,9 +161,9 @@ namespace iLinksEditor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _filterClientsText, value); }
         }
 
-        private Client _selectedClient;
+        private iLinks.Data.Client _selectedClient;
 
-        public Client SelectedClient
+        public iLinks.Data.Client SelectedClient
         {
             get { return _selectedClient; }
             set { this.RaiseAndSetIfChanged(ref _selectedClient, value); }
@@ -169,8 +171,8 @@ namespace iLinksEditor.ViewModels
 
 
 
-        private Dictionary<Client, MetroiLinks> _metroiLinks;
-        public Dictionary<Client, MetroiLinks> MetroiLinks
+        private Dictionary<iLinks.Data.Client, MetroiLinks> _metroiLinks;
+        public Dictionary<iLinks.Data.Client, MetroiLinks> MetroiLinks
         {
             get { return _metroiLinks; }
             set { this.RaiseAndSetIfChanged(ref _metroiLinks, value); }

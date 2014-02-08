@@ -36,7 +36,7 @@
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="14" Style="{StaticResource EditorFont}">
-                            <Run FontWeight="Bold" Text="{Binding Id}"></Run>
+                            <Run FontWeight="Bold" Text="{Binding ID}"></Run>
                             <Run Text=" - "></Run>
                             <Run Text="{Binding Name}"></Run>
                         </TextBlock>
