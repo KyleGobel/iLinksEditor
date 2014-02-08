@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Jetnett_Data" Class="iLinksDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ogt6gud01l.database.windows.net;Initial Catalog=Jetnett_Data;Persist Security Info=True;User ID=jetnett_admin" SettingsObjectName="iLinksEditor.Properties.Settings" SettingsPropertyName="Jetnett_DataConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Clients" Member="Clients">
+    <Type Name="Client">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="User_ID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Website" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Display_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CSS" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Analytics_Key" Type="System.String" DbType="VarChar(112)" CanBeNull="true" />
+      <Association Name="Client_Metro_iLink" Member="Metro_iLinks" ThisKey="ID" OtherKey="Client_ID" Type="Metro_iLink" />
+      <Association Name="Client_CommunityProfile" Member="CommunityProfiles" ThisKey="ID" OtherKey="ClientId" Type="CommunityProfile" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Metro_iLinks" Member="Metro_iLinks">
+    <Type Name="Metro_iLink">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Client_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PageBGColor" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PageTextColor" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="PageLinkColor" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HomeSearchText" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="HomeSearchURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="OriginationPage" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="BackLinkTitle" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="BackLinkURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="BackLinkTarget" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="DropDownPageIDs" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClientLogoGraphicLocation" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClientLogoLinkURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClientLogoTargetWindow" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ClientLogoAltText" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ProductLogoGraphicLocation" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ProductLogoLinkURL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ProductLogoTargetWindow" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="ProductLogoAltText" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="OriginationPageTarget" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SEOMetaKeys" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="SEOMetaDesc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="FontSizePx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Client_Metro_iLink" Member="Client" ThisKey="Client_ID" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pages" Member="Pages">
+    <Type Name="Page">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Folder_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Auto_Ordering" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Footer_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="MetaKeys" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="MetaDesc" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Canonical_URL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Extra_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Route" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Association Name="Page_CommunityProfile" Member="CommunityProfiles" ThisKey="ID" OtherKey="PageId" Type="CommunityProfile" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CommunityProfiles" Member="CommunityProfiles">
+    <Type Name="CommunityProfile">
+      <Column Name="ClientId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PageId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Client_CommunityProfile" Member="Client" ThisKey="ClientId" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Page_CommunityProfile" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
