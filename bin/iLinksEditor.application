@@ -7,14 +7,14 @@
     <framework targetVersion="4.5" profile="Full" supportedRuntime="4.0.30319" />
   </compatibleFrameworks>
   <dependency>
-    <dependentAssembly dependencyType="install" codebase="iLinksEditor.exe.manifest" size="33680">
+    <dependentAssembly dependencyType="install" codebase="iLinksEditor.exe.manifest" size="31139">
       <assemblyIdentity name="iLinksEditor.exe" version="1.0.0.9" publicKeyToken="0000000000000000" language="neutral" processorArchitecture="msil" type="win32" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>0SF+Ylt2eliPUcI8oaRU+yD7bw09M7a7nnQ9CU3Zk+c=</dsig:DigestValue>
+        <dsig:DigestValue>iOnGuOyWjTWP8v5D3bJgfuXD1vmyEmhghvMDP8seLPc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

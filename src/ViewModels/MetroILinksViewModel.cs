@@ -1,11 +1,6 @@
-﻿using System.Reactive.Disposables;
-using Api.JetNett.Models.Types;
-using iLinks.Data;
+﻿using iLinks.Data;
 using ReactiveUI;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Concurrency;
 using System;
 using Page = iLinks.Data.Page;
 
@@ -13,7 +8,7 @@ namespace iLinksEditor.ViewModels
 {
     public interface IMetroiLinksViewModel
     {
-        MetroiLinks MetroiLink { get; set; }
+        Metro_iLink MetroiLink { get; set; }
         IReactiveCommand OpenPageSelectorCommand { get; set; }
         ReactiveList<iLinks.Data.Page> CommunityProfiles { get; set; } 
         bool ShowEditor { get; set; }
@@ -41,16 +36,15 @@ namespace iLinksEditor.ViewModels
                     NotShowEditor = !ShowEditor;
                     var cpRepo = new CommunityProfilesRepo();
                     if (x.Value != null)
-                        CommunityProfiles = new ReactiveList<Page>(cpRepo.GetCommunityProfiles(x.Value.ClientId));
+                        CommunityProfiles = new ReactiveList<Page>(cpRepo.GetCommunityProfiles(x.Value.Client_ID));
                 });
 
             CommunityProfiles = new ReactiveList<Page>();
             NotShowEditor = !ShowEditor;
         }
 
-        private MetroiLinks _metroiLink;
-
-        public MetroiLinks MetroiLink
+        private Metro_iLink _metroiLink;
+        public Metro_iLink MetroiLink
         {
             get { return _metroiLink; }
             set { this.RaiseAndSetIfChanged(ref _metroiLink, value); }

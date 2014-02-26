@@ -5,9 +5,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Reactive.Threading.Tasks;
-using Api.JetNett.Models.Operations;
-using Api.JetNett.Models.Types;
-using JetNettApiReactive;
+using iLinks.Data;
 using ReactiveUI;
 using RestSharp;
 using ServiceStack;
@@ -36,13 +34,17 @@ namespace iLinksEditor.ViewModels
 
         protected override void LoadChildren()
         {
-            GetChildFolders(Folder.Id).ObserveOnDispatcher().Subscribe(x => x.OrderBy(o => o.Name).ToList().ForEach(f => base.Children.Add(new FolderViewModel(f))));
+            GetChildFolders(Folder.ID)
+                .ObserveOnDispatcher()
+                .Subscribe(x => x.OrderBy(o => o.Name)
+                    .ToList()
+                    .ForEach(f => base.Children.Add(new FolderViewModel(f))));
         }
         private IObservable<List<Folder>> GetChildFolders(int id)
         {
-            var repo = new FolderRepository(new JsonServiceClient("http://jetnett.com/jetnettapi/01-04-2014/"));
+            var repo = new FoldersRepo();
 
-            return repo.GetChildFolders(id);
+            return Observable.Return(repo.GetChildFolders(id).ToList());
         }
 
     }

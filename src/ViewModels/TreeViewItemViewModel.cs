@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Api.JetNett.Models.Types;
+using iLinks.Data;
 using ReactiveUI;
 
 namespace iLinksEditor.ViewModels
@@ -16,7 +16,7 @@ namespace iLinksEditor.ViewModels
 
     public class TreeViewItemViewModel : ReactiveObject, ITreeViewItemViewModel
     {
-        static readonly TreeViewItemViewModel DummyChild = new FolderViewModel(new Folder() {Id =0, Name = "Loading Folders"});
+        static readonly TreeViewItemViewModel DummyChild = new FolderViewModel(new Folder() {ID =0, Name = "Loading Folders"});
         public TreeViewItemViewModel(TreeViewItemViewModel parent, bool lazyChildren)
         {
             _parent = parent;

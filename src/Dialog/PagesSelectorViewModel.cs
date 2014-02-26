@@ -1,21 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
-using System.Threading;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Documents;
-using Api.JetNett.Models.Operations;
-using Api.JetNett.Models.Types;
-using JetNettApiReactive;
+using iLinks.Data;
 using ReactiveUI;
-using RestSharp;
 using ServiceStack;
 
 namespace iLinksEditor.Dialog
@@ -28,7 +17,7 @@ namespace iLinksEditor.Dialog
         {
             SelectedPages = new SortableObservableCollection<iLinks.Data.Page>();
             //_selectedFolder = new Folder {Id =0, Name="none"};
-            this.ObservableForProperty(x => x.SelectedFolder).Subscribe(x => PagesByFolder(x.Value.Id).Subscribe(
+            this.ObservableForProperty(x => x.SelectedFolder).Subscribe(x => PagesByFolder(x.Value.ID).Subscribe(
                 pages =>
                 {
                     Pages = pages.OrderBy(o => o.Title).ToList();

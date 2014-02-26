@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +17,9 @@ namespace iLinks.Data
                 new iLinksDataContext(
                     new SqlConnection(ConfigurationManager.ConnectionStrings["connection"].ConnectionString));
         }
-        public IObservable<List<Client>> GetAll()
+        public List<Client> GetAll()
         {
-            return Observable.Return(_context.Clients.ToList());
+            return _context.Clients.ToList();
         }
     }
     public class PagesRepo

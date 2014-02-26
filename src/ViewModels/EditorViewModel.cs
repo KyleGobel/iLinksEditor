@@ -1,32 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Windows;
-using Api.JetNett.Models.Operations;
-using Api.JetNett.Models.Types;
 using iLinks.Data;
 using iLinksEditor.Dialog;
-using JetNettApiReactive;
 using ReactiveUI;
 using RestSharp;
 using ServiceStack;
-using ServiceStack.Common;
-using ServiceStack.Configuration;
-using Client = Api.JetNett.Models.Types.Client;
-using DataFormat = RestSharp.DataFormat;
-using Page = Api.JetNett.Models.Types.Page;
 
 namespace iLinksEditor.ViewModels
 {
     public interface IEditorViewModel : IRoutableViewModel
     {
-        Dictionary<iLinks.Data.Client, MetroiLinks> MetroiLinks { get; }
+        Dictionary<iLinks.Data.Client, iLinks.Data.Metro_iLink> MetroiLinks { get; }
         IReactiveCommand SaveILinksCommand { get; }
         MetroiLinksViewModel MetroiLinksViewModel { get; }
         string FilterClientsText { get; set; }
@@ -38,13 +26,10 @@ namespace iLinksEditor.ViewModels
 
     public class EditorViewModel : ReactiveObject, IEditorViewModel
     {
-        protected JsonServiceClient JsonClient { get; set; }
         public EditorViewModel(IScreen screen)
         {
             HostScreen = screen;
 
-            _restClient = new RestClient(ConfigSettings.Current.JetNettApiAddress);
-            JsonClient = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
 
             var clientsObs = GetClients();
             var iLinksObs = GetILinks();
@@ -59,7 +44,7 @@ namespace iLinksEditor.ViewModels
                 (clientList, iLinksList) => clientList.Join(
                     iLinksList,
                     c => c.ID,
-                    i => i.ClientId,
+                    i => i.Client_ID,
                     (c, i) => new
                     {
                         Client = c,
@@ -110,9 +95,7 @@ namespace iLinksEditor.ViewModels
             SaveILinksCommand = new ReactiveCommand(this.WhenAny(x => x.SelectedClient, x => x.Value != null));
             SaveILinksCommand.Subscribe(x =>
             {
-                var client = new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress);
-                client.Credentials = new NetworkCredential("ApiUser", "ssapi");
-                var repo = new MetroiLinkRepository(client);
+                var repo = new MetroiLinksRepo();
                 repo.Update(MetroiLinksViewModel.MetroiLink);
                 MessageBox.Show("Saved");
             });
@@ -124,7 +107,7 @@ namespace iLinksEditor.ViewModels
             {
                 var cpRepo = new CommunityProfilesRepo();
                 var currentSelectedILink = MetroiLinksViewModel.MetroiLink;
-                cpRepo.UpdateCommunityProfiles(currentSelectedILink.ClientId, x);
+                cpRepo.UpdateCommunityProfiles(currentSelectedILink.Client_ID, x);
                 MetroiLinksViewModel.MetroiLink = null;
                 MetroiLinksViewModel.MetroiLink = currentSelectedILink;
             });
@@ -144,13 +127,13 @@ namespace iLinksEditor.ViewModels
         private IObservable<List<iLinks.Data.Client>> GetClients()
         {
             var repo = new ClientsRepo();
-            return repo.GetAll();
+            return Observable.Return(repo.GetAll());
         }
 
-        private IObservable<List<MetroiLinks>> GetILinks()
+        private IObservable<List<iLinks.Data.Metro_iLink>> GetILinks()
         {
-            var repo = new MetroiLinkRepository(new JsonServiceClient(ConfigSettings.Current.JetNettApiAddress));
-            return repo.GetAll();
+            var repo = new MetroiLinksRepo();
+            return Observable.Return(repo.GetAll().ToList());
         }
 
         private string _filterClientsText;
@@ -171,8 +154,8 @@ namespace iLinksEditor.ViewModels
 
 
 
-        private Dictionary<iLinks.Data.Client, MetroiLinks> _metroiLinks;
-        public Dictionary<iLinks.Data.Client, MetroiLinks> MetroiLinks
+        private Dictionary<iLinks.Data.Client, Metro_iLink> _metroiLinks;
+        public Dictionary<iLinks.Data.Client, iLinks.Data.Metro_iLink> MetroiLinks
         {
             get { return _metroiLinks; }
             set { this.RaiseAndSetIfChanged(ref _metroiLinks, value); }
@@ -192,6 +175,5 @@ namespace iLinksEditor.ViewModels
             set { this.RaiseAndSetIfChanged(ref _metroiLinksViewModel, value); }
         }
 
-        private readonly RestClient _restClient = null;
     }
 }

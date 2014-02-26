@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Jetnett_Data" Class="iLinksDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=ogt6gud01l.database.windows.net;Initial Catalog=Jetnett_Data;Persist Security Info=True;User ID=jetnett_admin" SettingsObjectName="iLinksEditor.Properties.Settings" SettingsPropertyName="Jetnett_DataConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=ogt6gud01l.database.windows.net;Initial Catalog=Jetnett_Data;Persist Security Info=True;User ID=jetnett_admin" SettingsObjectName="iLinks.Data.Properties.Settings" SettingsPropertyName="Jetnett_DataConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Clients" Member="Clients">
     <Type Name="Client">
       <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -11,8 +11,55 @@
       <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="CSS" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
       <Column Name="Analytics_Key" Type="System.String" DbType="VarChar(112)" CanBeNull="true" />
-      <Association Name="Client_Metro_iLink" Member="Metro_iLinks" ThisKey="ID" OtherKey="Client_ID" Type="Metro_iLink" />
       <Association Name="Client_CommunityProfile" Member="CommunityProfiles" ThisKey="ID" OtherKey="ClientId" Type="CommunityProfile" />
+      <Association Name="Client_Metro_iLink" Member="Metro_iLinks" ThisKey="ID" OtherKey="Client_ID" Type="Metro_iLink" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CommunityProfiles" Member="CommunityProfiles">
+    <Type Name="CommunityProfile">
+      <Column Name="ClientId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="PageId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Client_CommunityProfile" Member="Client" ThisKey="ClientId" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Page_CommunityProfile" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Folders" Member="Folders">
+    <Type Name="Folder">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Parent_Folder_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Folder_Folder" Member="Folders" ThisKey="ID" OtherKey="Parent_Folder_ID" Type="Folder" />
+      <Association Name="Folder_Page" Member="Pages" ThisKey="ID" OtherKey="Folder_ID" Type="Page" />
+      <Association Name="Folder_Folder" Member="Folder1" ThisKey="Parent_Folder_ID" OtherKey="ID" Type="Folder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Links" Member="Links">
+    <Type Name="Link">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Page_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Position" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Is_Link" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="URL" Type="System.String" DbType="VarChar(512)" CanBeNull="true" />
+      <Column Name="Target" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Page_Link" Member="Page" ThisKey="Page_ID" OtherKey="ID" Type="Page" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pages" Member="Pages">
+    <Type Name="Page">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Folder_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Auto_Ordering" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Footer_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="MetaKeys" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="MetaDesc" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
+      <Column Name="Canonical_URL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Extra_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
+      <Column Name="Route" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Association Name="Page_CommunityProfile" Member="CommunityProfiles" ThisKey="ID" OtherKey="PageId" Type="CommunityProfile" />
+      <Association Name="Page_Link" Member="Links" ThisKey="ID" OtherKey="Page_ID" Type="Link" />
+      <Association Name="Folder_Page" Member="Folder" ThisKey="Folder_ID" OtherKey="ID" Type="Folder" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.Metro_iLinks" Member="Metro_iLinks">
@@ -42,29 +89,6 @@
       <Column Name="SEOMetaDesc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="FontSizePx" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Client_Metro_iLink" Member="Client" ThisKey="Client_ID" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Pages" Member="Pages">
-    <Type Name="Page">
-      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Folder_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Title" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
-      <Column Name="Auto_Ordering" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="Footer_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="MetaKeys" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
-      <Column Name="MetaDesc" Type="System.String" DbType="VarChar(256)" CanBeNull="true" />
-      <Column Name="Canonical_URL" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Extra_HTML" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
-      <Column Name="Route" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
-      <Association Name="Page_CommunityProfile" Member="CommunityProfiles" ThisKey="ID" OtherKey="PageId" Type="CommunityProfile" />
-    </Type>
-  </Table>
-  <Table Name="dbo.CommunityProfiles" Member="CommunityProfiles">
-    <Type Name="CommunityProfile">
-      <Column Name="ClientId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="PageId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Association Name="Client_CommunityProfile" Member="Client" ThisKey="ClientId" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
-      <Association Name="Page_CommunityProfile" Member="Page" ThisKey="PageId" OtherKey="ID" Type="Page" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

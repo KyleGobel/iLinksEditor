@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reactive.Linq;
+using System.Transactions;
 
 namespace iLinks.Data
 {
@@ -28,23 +28,30 @@ namespace iLinks.Data
 
         public void UpdateCommunityProfiles(int clientId, IEnumerable<Page> pages)
         {
-            var existingProfiles = _context.CommunityProfiles.Where(x => x.ClientId == clientId);
-            foreach (var p in existingProfiles)
+            using (var transaction = new TransactionScope())
             {
-                _context.CommunityProfiles.DeleteOnSubmit(p);
-            }
-
-            _context.SubmitChanges();
-            foreach (var p in pages)
-            {
-                _context.CommunityProfiles.InsertOnSubmit(new CommunityProfile
+                var existingProfiles = _context.CommunityProfiles.Where(x => x.ClientId == clientId);
+                foreach (var p in existingProfiles)
                 {
-                    ClientId = clientId,
-                    PageId = p.ID
-                });
-            }
+                    _context.CommunityProfiles.DeleteOnSubmit(p);
+                }
 
-            _context.SubmitChanges();
+                _context.SubmitChanges();
+
+                pages = pages.GroupBy(x => x.ID)
+                    .Select(grp => grp.First());
+                foreach (var p in pages)
+                {
+                    _context.CommunityProfiles.InsertOnSubmit(new CommunityProfile
+                    {
+                        ClientId = clientId,
+                        PageId = p.ID
+                    });
+                }
+
+                _context.SubmitChanges();
+                transaction.Complete();
+            }
         }
          
     }
