@@ -19,7 +19,7 @@ namespace iLinks.Data
         }
         public void Update(Metro_iLink iLink)
         {
-            var obj = _context.Metro_iLinks.SingleOrDefault(x => x.ID == iLink.ID);
+            _context.SubmitChanges();
 
         }
     }
