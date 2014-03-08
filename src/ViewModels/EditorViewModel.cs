@@ -102,7 +102,6 @@ namespace iLinksEditor.ViewModels
 
             MetroiLinksViewModel = new MetroiLinksViewModel();
 
-
             MessageBus.Current.Listen<SortableObservableCollection<iLinks.Data.Page>>().Subscribe(x =>
             {
                 var cpRepo = new CommunityProfilesRepo();

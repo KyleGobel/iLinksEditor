@@ -76,26 +76,26 @@
                 <TextBlock TextWrapping="Wrap" Text="Home Search Url"  Grid.Row="19" />
             <TextBlock Grid.Row="20" TextWrapping="Wrap" Text="Drop Down Page Ids"/>
             
-            <xctk:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding MetroiLink.PageBgColor}" />
+            <xctk:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding MetroiLink.PageBGColor}" />
             <xctk:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding MetroiLink.PageTextColor}" />
             <xctk:ColorPicker Grid.Column="1" Grid.Row="2" SelectedColor="{Binding MetroiLink.PageLinkColor}" />
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.FontSizePx}" Grid.Row="3" />
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.OriginationPage}" Grid.Row="4"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoGraphicLocation}" Grid.Row="5"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoLinkUrl}" Grid.Row="6"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoLinkURL}" Grid.Row="6"/>
                 <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoTargetWindow}" Grid.Row="7"/>
                 <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ClientLogoAltText}" Grid.Row="8"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoGraphicLocation}" Grid.Row="9"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoLinkUrl}" Grid.Row="10"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoLinkURL}" Grid.Row="10"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoTargetWindow}" Grid.Row="11"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.ProductLogoAltText}" Grid.Row="12"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkTarget}" Grid.Row="13"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkUrl}" Grid.Row="14"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkURL}" Grid.Row="14"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.BackLinkTitle}" Grid.Row="15"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SeoMetaKeys}" Grid.Row="16"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SeoMetaDesc}" Grid.Row="17"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SEOMetaKeys}" Grid.Row="16"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SEOMetaDesc}" Grid.Row="17"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchText}" Grid.Row="18"/>
-            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchUrl}" Grid.Row="19"/>
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchURL}" Grid.Row="19"/>
             <Grid Grid.Row="20" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8*"/>
