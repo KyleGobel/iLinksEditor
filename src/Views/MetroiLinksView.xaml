@@ -47,6 +47,7 @@
                     <RowDefinition MinHeight="30" Height="1*"/>
                     <RowDefinition MinHeight="30" Height="1*"/>
                     <RowDefinition MinHeight="30" Height="1*"/>
+                    <RowDefinition MinHeight="30" Height="1*"/>
                     <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -74,7 +75,8 @@
 
             <TextBlock TextWrapping="Wrap" Text="Home Search Text" Grid.Row="18"/>
                 <TextBlock TextWrapping="Wrap" Text="Home Search Url"  Grid.Row="19" />
-            <TextBlock Grid.Row="20" TextWrapping="Wrap" Text="Drop Down Page Ids"/>
+                <TextBlock TextWrapping="Wrap" Text="Home Search Label Text" Grid.Row="20"></TextBlock>
+            <TextBlock Grid.Row="21" TextWrapping="Wrap" Text="Drop Down Page Ids"/>
             
             <xctk:ColorPicker Grid.Column="1" Grid.Row="0" SelectedColor="{Binding MetroiLink.PageBGColor}" />
             <xctk:ColorPicker Grid.Column="1" Grid.Row="1" SelectedColor="{Binding MetroiLink.PageTextColor}" />
@@ -96,7 +98,8 @@
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.SEOMetaDesc}" Grid.Row="17"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchText}" Grid.Row="18"/>
             <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchURL}" Grid.Row="19"/>
-            <Grid Grid.Row="20" Grid.Column="1">
+            <TextBox Grid.Column="1" TextWrapping="Wrap" Text="{Binding MetroiLink.HomeSearchLabelText}" Grid.Row="20"/>
+            <Grid Grid.Row="21" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="8*"/>
                     <ColumnDefinition Width="2*"></ColumnDefinition>

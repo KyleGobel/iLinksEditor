@@ -43,6 +43,7 @@ namespace iLinks.Data
             dbEntry.ProductLogoTargetWindow = iLink.ProductLogoTargetWindow;
             dbEntry.SEOMetaDesc = iLink.SEOMetaDesc;
             dbEntry.SEOMetaKeys = iLink.SEOMetaKeys;
+            dbEntry.HomeSearchLabelText = iLink.HomeSearchLabelText;
          
             _context.SubmitChanges();
         }

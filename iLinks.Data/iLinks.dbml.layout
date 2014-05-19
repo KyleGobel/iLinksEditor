@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 11.875" name="iLinks">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 12.25" name="iLinks">
   <DataContextMoniker Name="/iLinksDataContext" />
   <nestedChildShapes>
     <classShape Id="42842059-11c3-4c86-b55e-331ccc55fec2" absoluteBounds="3.5, 6.625, 2, 2.5401025390625005">
@@ -14,7 +14,7 @@
         <elementListCompartment Id="1bd07372-c5f4-40df-8dcf-f492f4c42858" absoluteBounds="6.2650000000000006, 1.2100000000000009, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.5 : 6.625); (5.875 : 6.25); (5.875 : 1.34699625651042); (6.25 : 1.34699625651042)]" fixedFrom="NotFixed" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 6.625); (5.875 : 6.25); (5.875 : 1.67674638476563); (6.25 : 1.67674638476563)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/iLinksDataContext/Client/Client_CommunityProfile" />
       <nodes>
         <classShapeMoniker Id="42842059-11c3-4c86-b55e-331ccc55fec2" />
@@ -46,14 +46,14 @@
         <elementListCompartment Id="ce47732a-45f2-4aa7-b1fd-8c0cfdbf1d93" absoluteBounds="3.515, 3.46, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4.5 : 3); (4.5 : 1.67674688476563); (5.79166666666667 : 1.67674688476563 : JumpStart); (5.95833333333333 : 1.67674688476563 : JumpEnd); (6.25 : 1.67674688476563)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4.5 : 3); (4.5 : 1.34699625651042); (6.25 : 1.34699625651042)]" fixedFrom="NotFixed" fixedTo="Algorithm">
       <AssociationMoniker Name="/iLinksDataContext/Page/Page_CommunityProfile" />
       <nodes>
         <classShapeMoniker Id="8fe0df8c-0f50-42fc-aa62-a4a957cc50df" />
         <classShapeMoniker Id="4a410955-b0f7-463c-bbc6-734276655c91" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 4.32774983723958); (5.79166666666667 : 4.32774983723958 : JumpStart); (5.95833333333333 : 4.32774983723958 : JumpEnd); (6.25 : 4.32774983723958)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 4.32774983723958); (5.79166666666667 : 4.32774983723958 : JumpStart); (5.95833333333333 : 4.32774983723958 : JumpEnd); (6.25 : 4.32774983723958)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/iLinksDataContext/Page/Page_Link" />
       <nodes>
         <classShapeMoniker Id="8fe0df8c-0f50-42fc-aa62-a4a957cc50df" />
@@ -67,17 +67,17 @@
         <classShapeMoniker Id="8fe0df8c-0f50-42fc-aa62-a4a957cc50df" />
       </nodes>
     </associationConnector>
-    <classShape Id="2755a138-1cdf-4d50-9323-2f5e56903cbd" absoluteBounds="6.25, 6.25, 2, 5.4246240234374978">
+    <classShape Id="0c33ea35-dfec-4d7f-a162-343dea592767" absoluteBounds="6.875, 6.375, 2, 5.6169254557291657">
       <DataClassMoniker Name="/iLinksDataContext/Metro_iLink" />
       <nestedChildShapes>
-        <elementListCompartment Id="e01bf56b-700f-471f-b499-d9baa7e3c1b4" absoluteBounds="6.265, 6.71, 1.9700000000000002, 4.8646240234375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="691ed039-4250-4644-8638-eb4a39d48844" absoluteBounds="6.89, 6.8350000000000009, 1.9700000000000002, 5.0569254557291661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.5 : 7.92630376953125); (6.25 : 7.92630376953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 7.92630376953125); (6.875 : 7.92630376953125)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/iLinksDataContext/Client/Client_Metro_iLink" />
       <nodes>
         <classShapeMoniker Id="42842059-11c3-4c86-b55e-331ccc55fec2" />
-        <classShapeMoniker Id="2755a138-1cdf-4d50-9323-2f5e56903cbd" />
+        <classShapeMoniker Id="0c33ea35-dfec-4d7f-a162-343dea592767" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

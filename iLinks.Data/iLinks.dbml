@@ -88,6 +88,7 @@
       <Column Name="SEOMetaKeys" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="SEOMetaDesc" Type="System.String" DbType="VarChar(MAX)" CanBeNull="true" />
       <Column Name="FontSizePx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HomeSearchLabelText" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Association Name="Client_Metro_iLink" Member="Client" ThisKey="Client_ID" OtherKey="ID" Type="Client" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>
